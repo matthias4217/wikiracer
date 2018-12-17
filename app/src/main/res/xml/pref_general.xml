@@ -1,0 +1,12 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+        <ListPreference android:title="Wikimedia"
+            android:key="wikimedia"
+            android:entries="@array/base_urls"
+            android:entryValues="@array/base_urls"
+            android:dialogTitle="Choisir le wikimedia :"
+            android:persistent="true">
+        </ListPreference>
+
+</PreferenceScreen>

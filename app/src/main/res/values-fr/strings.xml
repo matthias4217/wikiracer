@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Wikiracer</string>
+    <string name="search_input_button">Rechercher</string>
+    <string name="search_input_hint">Article à chercher</string>
+    <string name="loading_search_text">Chargement...</string>
+    <string name="query_begin"><![CDATA[/w/api.php?format=json&action=parse&page=]]></string>
+    <string name="query_begin2"><![CDATA[/wiki/]]></string>
+    <string name="query_end"><![CDATA[&prop=revisions&rvprop=content]]></string>
+    <string-array name="base_urls">
+        <item>https://en.wikipedia.org</item>
+        <item>https://fr.wikipedia.org</item>
+        <item>https://eo.wikipedia.org</item>
+        <item>https://www.mediawiki.org</item>
+    </string-array>
+    <string name="score_text">Score : </string>
+    <string name="title_activity_main">Wikiracer</string>
+    <string name="title_activity_settings">Préférences</string>
+    <string name="title_activity_create_game">Nouveau jeu</string>
+
+    <string name="activity_create_game_drawer">Wikiracer</string>
+</resources>
