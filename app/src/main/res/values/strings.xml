@@ -14,7 +14,8 @@
         <item>https://fr.wikipedia.org</item>
         <item>https://www.mediawiki.org</item>
         <item>species.wikimedia.org</item>
-        <item>http://en.wikipedia.org</item>
+        <item>https://en.wikibooks.org</item>
+        <item>https://www.wikidata.org</item>
     </string-array>
     <string name="score_text">Score : </string>
 

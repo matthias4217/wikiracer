@@ -55,6 +55,10 @@ public class AsyncSearch extends AsyncTask {
     @Override
     protected Spanned doInBackground(Object[] objects) {
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(myActivity);
+        String baseurl = prefs.getString("wikimedia", myActivity.getResources().
+                getStringArray(R.array.base_urls)[0]);
+
         TextInputEditText search_input = myActivity.findViewById(R.id.search_input);
         String search_text;
 
@@ -73,12 +77,17 @@ public class AsyncSearch extends AsyncTask {
             return Html.fromHtml("<strong>You won !</strong> <br \\> Page was : " + goal);
         }
 
-        dbHelper = new PageDatabaseOpenHelper(myActivity);
-        Cursor cursor = dbHelper.getPage(search_text);
 
+        String wiki = null;
+        dbHelper = new PageDatabaseOpenHelper(myActivity);
+        Cursor cursor = dbHelper.getPage(search_text, baseurl);
         if (cursor.getCount() == 1) {
-            // we get the page, it's good...
             cursor.moveToFirst();
+            wiki = cursor.getString(cursor.getColumnIndexOrThrow("WIKI"));
+        }
+
+        if (cursor.getCount() == 1 && wiki.equals(baseurl)) {
+            // we get the page, it's good...
             String title = cursor.getString(cursor.getColumnIndexOrThrow("TITLE"));
             String content = cursor.getString(cursor.getColumnIndexOrThrow("CONTENT"));
             Spanned result   = null;
@@ -96,9 +105,6 @@ public class AsyncSearch extends AsyncTask {
             String search_result = "";
 
             try {
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(myActivity);
-                String baseurl = prefs.getString("wikimedia", myActivity.getResources().
-                        getStringArray(R.array.base_urls)[0]);
                 url = new URL(baseurl + myActivity.getString(R.string.query_begin) + search_text);
                 Log.v("Test", "Query url : " + url);
 
@@ -123,7 +129,7 @@ public class AsyncSearch extends AsyncTask {
                 e.printStackTrace();
             }
             dbHelper = new PageDatabaseOpenHelper(myActivity);
-            dbHelper.insertPage(pageParser.title, search_result);
+            dbHelper.insertPage(pageParser.title, search_result, baseurl);
             return result;
         }
     }

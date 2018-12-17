@@ -2,6 +2,8 @@
 
 ## Game
 
+  [x] Ajouter wikidata
+  [x] Ajouter wikibooks
   [ ] Show path to victory
 
 ## Storing
@@ -9,6 +11,7 @@
   * [Doc](https://developer.android.com/guide/topics/data/data-storage#db)
   * [Nice stuff](https://www.androidauthority.com/use-sqlite-store-data-app-599743/)
   [x] Pages
+    [x] Ajouter source wiki
   [ ] Scores
 
 ## JSON Parsing
