@@ -27,7 +27,8 @@ public class CreateGameActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     ListView wikiPages;
-    public static final String EXTRA_MESSAGE = "net.ombrenoire.wikiracer.MESSAGE";
+    public static final String END_PAGE = "net.ombrenoire.wikiracer.END_PAGE";
+    public static final String START_PAGE = "net.ombrenoire.wikiracer.START_PAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +94,8 @@ public class CreateGameActivity extends AppCompatActivity {
                 String title_end = (String) wikiPages.getItemAtPosition(id_end_page);
                 Intent intent = new Intent(CreateGameActivity.this, MainActivity.class);
                 Log.v("Test", "title_end : " + title_end);
-                intent.putExtra(EXTRA_MESSAGE, title_end);
+                intent.putExtra(START_PAGE, title_start);
+                intent.putExtra(END_PAGE, title_end);
                 startActivity(intent);
 
             }

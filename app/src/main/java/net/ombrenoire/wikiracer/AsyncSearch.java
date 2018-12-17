@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.text.Spanned;
 import android.text.SpannedString;
 import android.util.Log;
@@ -32,9 +33,17 @@ public class AsyncSearch extends AsyncTask {
     private boolean isPageName = false;
     private String pageName = null;
     private PageDatabaseOpenHelper dbHelper;
+    private String goal;
 
-    public AsyncSearch(AppCompatActivity a) {
+    public AsyncSearch(AppCompatActivity a, String goal) {
         myActivity = a;
+        this.goal = goal;
+    }
+    public AsyncSearch(AppCompatActivity a, String goal, String title) {
+        this.myActivity = a;
+        this.isPageName = true;
+        this.pageName = title;
+        this.goal = goal;
     }
 
     public void launchWithPageName(String pageName) {
@@ -49,13 +58,19 @@ public class AsyncSearch extends AsyncTask {
         TextInputEditText search_input = myActivity.findViewById(R.id.search_input);
         String search_text;
 
-
         if (this.isPageName) {
             search_text = this.pageName;
             this.isPageName = false;
         }
         else {
             search_text = search_input.getText().toString();
+        }
+
+        Log.v("Test", "goal : " + goal);
+        Log.v("Test", "page : " + search_text);
+
+        if (search_text.equals(goal)) {
+            return Html.fromHtml("<strong>You won !</strong> <br \\> Page was : " + goal);
         }
 
         dbHelper = new PageDatabaseOpenHelper(myActivity);

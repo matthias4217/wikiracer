@@ -43,7 +43,7 @@ class CustomWebViewClient extends WebViewClient {
             }
         }
         Log.v("Test", pageName);
-        new AsyncSearch(this.myActivity).launchWithPageName(pageName);
+        new AsyncSearch(this.myActivity, "").launchWithPageName(pageName);
         // .StartActivity (typeof(MainActivity));
         return false;
     }

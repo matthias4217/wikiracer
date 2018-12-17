@@ -1,5 +1,9 @@
 # TODO
 
+## Game
+
+  [ ] Show path to victory
+
 ## Storing
 
   * [Doc](https://developer.android.com/guide/topics/data/data-storage#db)
@@ -26,6 +30,9 @@
     [ ] List of wiki pages to choose for start/end pages
       [x] Get page list
       [ ] Use these values in the game
+        [x] Display end_page
+        [x] Got to start page
+        [x] Show something when win
   
 ## Settings
 

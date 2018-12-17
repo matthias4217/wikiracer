@@ -24,7 +24,8 @@ public class MainActivity extends AppCompatActivity {
     public static Integer score = 0;
     private DrawerLayout drawerLayout;
     public static final String START_PAGE = "net.ombrenoire.wikiracer.START_PAGE";
-    public static final String EXTRA_MESSAGE = "net.ombrenoire.wikiracer.MESSAGE";
+    public static final String END_PAGE = "net.ombrenoire.wikiracer.END_PAGE";
+    public static String goal;
 
 
 
@@ -35,8 +36,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
-        //String start_page = intent.getStringExtra(MainActivity.START_PAGE);
-        String end_page = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String start_page = intent.getStringExtra(MainActivity.START_PAGE);
+
+        if (start_page != null) {
+            // Load default page
+            searchArticle(start_page);
+        }
+
+        String end_page = intent.getStringExtra(MainActivity.END_PAGE);
+        this.goal = end_page;
         Log.v("Test", "end_page_main : " + end_page);
         Toast.makeText(getApplicationContext(), end_page, Toast.LENGTH_SHORT).show();
 
@@ -113,6 +121,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void searchArticle() {
-        new AsyncSearch(this).execute();
+        new AsyncSearch(this, goal).execute();
     }
+
+    public void searchArticle(String title) {
+        new AsyncSearch(this, goal, title).execute();
+    }
+
+
 }
