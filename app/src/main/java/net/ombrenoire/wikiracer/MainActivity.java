@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
@@ -21,11 +20,20 @@ public class MainActivity extends AppCompatActivity {
 
     public static Integer score = 0;
     private DrawerLayout drawerLayout;
+    public static final String START_PAGE = "net.ombrenoire.wikiracer.START_PAGE";
+    public static final String END_PAGE = "net.ombrenoire.wikiracer.END_PAGE";
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent = getIntent();
+        //String start_page = intent.getStringExtra(MainActivity.START_PAGE);
+        String end_page = intent.getStringExtra(MainActivity.START_PAGE);
+        Toast.makeText(getApplicationContext(), end_page, Toast.LENGTH_SHORT).show();
+
         setContentView(R.layout.activity_main);
         Button test_button = findViewById(R.id.test_button);
         test_button.setOnClickListener(new View.OnClickListener() {

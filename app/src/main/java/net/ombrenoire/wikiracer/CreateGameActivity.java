@@ -19,11 +19,13 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class CreateGameActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
+
+public class CreateGameActivity extends AppCompatActivity {
 
 
     private DrawerLayout drawerLayout;
+    ListView wikiPages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,22 +72,27 @@ public class CreateGameActivity extends AppCompatActivity
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
 
-        ListView wikiPages;
+        this.wikiPages = findViewById(R.id.list_wiki_pages);
         new AsyncListPages(this).execute();
 
         Button test_button = findViewById(R.id.create_game_button);
         test_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(), getResources().getString(R.string.loading_search_text), Toast.LENGTH_SHORT).show();
-                //new AsyncSearch(this).execute();
 
                 // Validate the race
 
-                TextInputEditText start_page_textedit = findViewById(R.id.start_page);
-                TextInputEditText end_page_textedit = findViewById(R.id.end_page);
+                TextInputEditText start_page_textedit = findViewById(R.id.start_page_et);
+                TextInputEditText end_page_textedit = findViewById(R.id.end_page_et);
                 int id_start_page = Integer.parseInt(start_page_textedit.getText().toString());
                 int id_end_page = Integer.parseInt(end_page_textedit.getText().toString());
+
+                String title_start = (String) wikiPages.getItemAtPosition(id_start_page);
+                String title_end = (String) wikiPages.getItemAtPosition(id_end_page);
+                Intent intent = new Intent(CreateGameActivity.this, MainActivity.class);
+                intent.putExtra(EXTRA_MESSAGE, title_end);
+                startActivity(intent);
+
             }
         });
     }
@@ -120,30 +127,5 @@ public class CreateGameActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 }
