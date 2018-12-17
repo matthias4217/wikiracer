@@ -9,7 +9,7 @@ import android.util.Log;
 
 public class PageDatabaseOpenHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "WikiracerDatabase.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String PAGES_TABLE_NAME = "pages";
     private static final String ID = "ID";
     private static final String TITLE = "TITLE";
@@ -32,7 +32,8 @@ public class PageDatabaseOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS " + PAGES_TABLE_NAME);
+        onCreate(db);
     }
 
     public boolean insertPage(String title, String content) {

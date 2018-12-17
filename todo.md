@@ -4,7 +4,7 @@
 
   * [Doc](https://developer.android.com/guide/topics/data/data-storage#db)
   * [Nice stuff](https://www.androidauthority.com/use-sqlite-store-data-app-599743/)
-  [ ] Pages
+  [x] Pages
   [ ] Scores
 
 ## JSON Parsing
@@ -24,6 +24,7 @@
   
   * To display data from the Internet
     [ ] List of wiki pages to choose for start/end pages
+      [x] Get page list
       [ ] Use these values in the game
   
 ## Settings

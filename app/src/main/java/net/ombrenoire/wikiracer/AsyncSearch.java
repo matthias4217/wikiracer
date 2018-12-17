@@ -64,12 +64,16 @@ public class AsyncSearch extends AsyncTask {
         if (cursor.getCount() == 1) {
             // we get the page, it's good...
             cursor.moveToFirst();
-            Log.v("Database", "cursor : " + cursor.toString());
             String title = cursor.getString(cursor.getColumnIndexOrThrow("TITLE"));
-            Log.v("Database", "test : " + title);
             String content = cursor.getString(cursor.getColumnIndexOrThrow("CONTENT"));
-            Log.v("Test", "title query : " + title);
-            return new SpannedString(content);
+            Spanned result   = null;
+            PageParser pageParser = new PageParser(content);
+            try {
+                result  = pageParser.JSONtoShow();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return result;
         }
         else {
             URL url;
@@ -104,7 +108,7 @@ public class AsyncSearch extends AsyncTask {
                 e.printStackTrace();
             }
             dbHelper = new PageDatabaseOpenHelper(myActivity);
-            dbHelper.insertPage(pageParser.title, result.toString());
+            dbHelper.insertPage(pageParser.title, search_result);
             return result;
         }
     }
