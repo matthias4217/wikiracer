@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -26,6 +27,7 @@ public class CreateGameActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     ListView wikiPages;
+    public static final String EXTRA_MESSAGE = "net.ombrenoire.wikiracer.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +92,7 @@ public class CreateGameActivity extends AppCompatActivity {
                 String title_start = (String) wikiPages.getItemAtPosition(id_start_page);
                 String title_end = (String) wikiPages.getItemAtPosition(id_end_page);
                 Intent intent = new Intent(CreateGameActivity.this, MainActivity.class);
+                Log.v("Test", "title_end : " + title_end);
                 intent.putExtra(EXTRA_MESSAGE, title_end);
                 startActivity(intent);
 

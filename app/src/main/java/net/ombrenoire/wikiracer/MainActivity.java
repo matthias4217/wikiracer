@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -15,13 +16,15 @@ import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 public class MainActivity extends AppCompatActivity {
 
 
     public static Integer score = 0;
     private DrawerLayout drawerLayout;
     public static final String START_PAGE = "net.ombrenoire.wikiracer.START_PAGE";
-    public static final String END_PAGE = "net.ombrenoire.wikiracer.END_PAGE";
+    public static final String EXTRA_MESSAGE = "net.ombrenoire.wikiracer.MESSAGE";
 
 
 
@@ -29,12 +32,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.activity_main);
+
         Intent intent = getIntent();
         //String start_page = intent.getStringExtra(MainActivity.START_PAGE);
-        String end_page = intent.getStringExtra(MainActivity.START_PAGE);
+        String end_page = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        Log.v("Test", "end_page_main : " + end_page);
         Toast.makeText(getApplicationContext(), end_page, Toast.LENGTH_SHORT).show();
 
-        setContentView(R.layout.activity_main);
+        TextView end_page_tv = findViewById(R.id.end_page_tv);
+        if (end_page != null) {
+            end_page_tv.setText(end_page);
+        }
+
         Button test_button = findViewById(R.id.test_button);
         test_button.setOnClickListener(new View.OnClickListener() {
             @Override
