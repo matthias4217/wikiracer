@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spanned;
+import android.text.SpannedString;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
@@ -43,10 +44,11 @@ public class AsyncSearch extends AsyncTask {
     }
 
     @Override
-    protected String doInBackground(Object[] objects) {
+    protected Spanned doInBackground(Object[] objects) {
 
         TextInputEditText search_input = myActivity.findViewById(R.id.search_input);
         String search_text;
+
 
         if (this.isPageName) {
             search_text = this.pageName;
@@ -55,43 +57,62 @@ public class AsyncSearch extends AsyncTask {
         else {
             search_text = search_input.getText().toString();
         }
-        URL url;
-        HttpsURLConnection urlConnection = null;
-        String search_result = "";
 
-        try {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(myActivity);
-            String baseurl = prefs.getString("wikimedia",myActivity.getResources().
-                    getStringArray(R.array.base_urls)[0]);
-            url = new URL(baseurl + myActivity.getString(R.string.query_begin) + search_text);
-            Log.v("Test", "Query url : " + url);
+        dbHelper = new PageDatabaseOpenHelper(myActivity);
+        Cursor cursor = dbHelper.getPage(search_text);
 
-            urlConnection = (HttpsURLConnection) url.openConnection();
-            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-            search_result = readStream(in);
-        } catch (IOException e) {
-            Log.v("Error", "IOException");
-            e.printStackTrace();
+        if (cursor.getCount() == 1) {
+            // we get the page, it's good...
+            cursor.moveToFirst();
+            Log.v("Database", "cursor : " + cursor.toString());
+            String title = cursor.getString(cursor.getColumnIndexOrThrow("TITLE"));
+            Log.v("Database", "test : " + title);
+            String content = cursor.getString(cursor.getColumnIndexOrThrow("CONTENT"));
+            Log.v("Test", "title query : " + title);
+            return new SpannedString(content);
         }
-        finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
+        else {
+            URL url;
+            HttpsURLConnection urlConnection = null;
+            String search_result = "";
+
+            try {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(myActivity);
+                String baseurl = prefs.getString("wikimedia", myActivity.getResources().
+                        getStringArray(R.array.base_urls)[0]);
+                url = new URL(baseurl + myActivity.getString(R.string.query_begin) + search_text);
+                Log.v("Test", "Query url : " + url);
+
+                urlConnection = (HttpsURLConnection) url.openConnection();
+                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                search_result = readStream(in);
+            } catch (IOException e) {
+                Log.v("Error", "IOException");
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
             }
+            Log.v("Error", "search results : " + search_result);
+
+            Spanned result   = null;
+            PageParser pageParser = new PageParser((String) search_result);
+            try {
+                result  = pageParser.JSONtoShow();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            dbHelper = new PageDatabaseOpenHelper(myActivity);
+            dbHelper.insertPage(pageParser.title, result.toString());
+            return result;
         }
-        Log.v("Error","search results : " + search_result);
-        return search_result;
     }
 
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-        Spanned result   = null;
-        PageParser pageParser = new PageParser((String) o);
-        try {
-            result  = pageParser.JSONtoShow();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        Spanned result = (Spanned) o;
         ImageView wikiLogo = myActivity.findViewById(R.id.wiki_logo);
         wikiLogo.setVisibility(View.GONE);
         TextView wiki_text = myActivity.findViewById(R.id.wiki_text);
@@ -100,9 +121,6 @@ public class AsyncSearch extends AsyncTask {
         TextView score_text = myActivity.findViewById(R.id.scoreText);
         Log.v("Test", MainActivity.score.toString());
         score_text.setText(myActivity.getString(R.string.score_text) + MainActivity.score.toString());
-
-        dbHelper = new PageDatabaseOpenHelper(myActivity);
-        dbHelper.insertPage(pageParser.title, result.toString());
     }
 
 

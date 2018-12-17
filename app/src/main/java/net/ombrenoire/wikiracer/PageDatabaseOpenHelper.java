@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class PageDatabaseOpenHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "WikiracerDatabase.db";
@@ -37,15 +38,22 @@ public class PageDatabaseOpenHelper extends SQLiteOpenHelper {
     public boolean insertPage(String title, String content) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        Log.v("Database", "Content : " + content);
         contentValues.put(TITLE, title);
         contentValues.put(CONTENT, content);
         db.insert(PAGES_TABLE_NAME, null, contentValues);
         return true;
     }
 
-    public Cursor getPerson(int id) {
+    public Cursor getPage(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery( "SELECT * FROM " + PAGES_TABLE_NAME + " WHERE " +
                 ID + "=?", new String[] { Integer.toString(id) } );
+    }
+
+    public Cursor getPage(String title) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery( "SELECT * FROM " + PAGES_TABLE_NAME + " WHERE " +
+                TITLE + "=?", new String[] { title } );
     }
 }
