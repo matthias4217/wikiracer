@@ -23,4 +23,6 @@
     <string name="title_activity_create_game">New game</string>
 
     <string name="activity_create_game_drawer">Wikiracer</string>
+
+    <string name="title_list_wiki_pages">Random wiki pages</string>
 </resources>

@@ -18,4 +18,6 @@
     <string name="title_activity_create_game">Nouveau jeu</string>
 
     <string name="activity_create_game_drawer">Wikiracer</string>
+
+    <string name="title_list_wiki_pages">Pages aléatoires</string>
 </resources>

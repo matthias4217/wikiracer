@@ -79,12 +79,14 @@ public class AsyncListPages extends AsyncTask {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        Log.v("Test", this.pageList.toString());
         ListView list = myActivity.findViewById(R.id.list_wiki_pages);
         ArrayAdapter<String> tableau = new ArrayAdapter<String>(list.getContext(), R.layout.page_lists);
         String title = null;
         for (int i=0; i<10; i++) {
             try {
-                title = this.pageList.getJSONObject(i).getString(title);
+                title = this.pageList.getJSONObject(i).getString("title");
+                Log.v("Test", i + "Titre : " + title);
             } catch (JSONException e) {
                 Log.v("Test", "i : " + i);
                 e.printStackTrace();
