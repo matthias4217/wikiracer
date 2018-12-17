@@ -5,6 +5,7 @@
   [x] Ajouter wikidata
   [x] Ajouter wikibooks
   [ ] Show path to victory
+  [ ] Reset score when creating new game
 
 ## Storing
 
@@ -30,9 +31,9 @@
 ## ListView
   
   * To display data from the Internet
-    [ ] List of wiki pages to choose for start/end pages
+    [x] List of wiki pages to choose for start/end pages
       [x] Get page list
-      [ ] Use these values in the game
+      [x] Use these values in the game
         [x] Display end_page
         [x] Got to start page
         [x] Show something when win
